@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudsoda/go-smb2/internal/utf16le"
+	"github.com/cyberb/go-smb2/internal/utf16le"
 )
 
 // NTLM v2 client

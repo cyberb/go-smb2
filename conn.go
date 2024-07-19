@@ -9,8 +9,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/cloudsoda/go-smb2/internal/erref"
-	. "github.com/cloudsoda/go-smb2/internal/smb2"
+	"github.com/cyberb/go-smb2/internal/erref"
+	. "github.com/cyberb/go-smb2/internal/smb2"
 )
 
 // Negotiator contains options for func (*Dialer) Dial.

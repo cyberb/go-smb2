@@ -1,4 +1,4 @@
-module github.com/cloudsoda/go-smb2
+module github.com/cyberb/go-smb2
 
 go 1.20
 

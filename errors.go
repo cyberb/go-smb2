@@ -3,7 +3,7 @@ package smb2
 import (
 	"fmt"
 
-	"github.com/cloudsoda/go-smb2/internal/erref"
+	"github.com/cyberb/go-smb2/internal/erref"
 )
 
 // TransportError represents a error come from net.Conn layer.

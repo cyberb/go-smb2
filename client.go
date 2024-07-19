@@ -14,10 +14,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudsoda/go-smb2/internal/erref"
-	"github.com/cloudsoda/go-smb2/internal/msrpc"
-	. "github.com/cloudsoda/go-smb2/internal/smb2"
-	"github.com/cloudsoda/go-smb2/internal/utf16le"
+	"github.com/cyberb/go-smb2/internal/erref"
+	"github.com/cyberb/go-smb2/internal/msrpc"
+	. "github.com/cyberb/go-smb2/internal/smb2"
+	"github.com/cyberb/go-smb2/internal/utf16le"
 )
 
 // Dialer contains options for func (*Dialer) Dial.
@@ -286,7 +286,7 @@ type Share struct {
 	ctx           context.Context
 	dfsTargetList map[string][]*DFSTarget //For caching the DFS targets for a path
 	mapWriterLock *sync.RWMutex
-	mapping utf16le.MapChars
+	mapping       utf16le.MapChars
 }
 
 func (fs *Share) WithContext(ctx context.Context) *Share {
@@ -1194,11 +1194,13 @@ func getFirstChild(dfsname, dirname string, isLink bool) string {
 
 /*
 	GetDFSTargetList - This function fetches the DFS target for a directory. This is to invoked on $IPC share only.
+
 INPUT:
  1. *Session  --> This is required to get the target server name.
  2. sharename --> As this function is to be exposed on $IPC share, this function requires the sharename on which the DFS exists.
  3. dirname   --> directory name for which the DFS target is to be fetched
  4. isLink    --> If the target directory is a DFS Link
+
 OUTPUT:
  1. []DFSTarget --> This is the list of folder targets(referrals) where this directory is present.
  2. error       --> Error if we fetch DFS operation fails.
