@@ -165,7 +165,12 @@ func (c *Session) Mount(sharename string, opts ...MountOption) (*Share, error) {
 		return nil, err
 	}
 
-	return &Share{treeConn: tc, ctx: context.Background(), mapping: options.mapping}, nil
+	return &Share{
+		treeConn:      tc,
+		ctx:           context.Background(),
+		dfsTargetList: make(map[string][]*DFSTarget),
+		mapping:       options.mapping,
+	}, nil
 }
 
 func (c *Session) ListSharenames() ([]string, error) {
@@ -285,8 +290,8 @@ type Share struct {
 	*treeConn
 	ctx           context.Context
 	dfsTargetList map[string][]*DFSTarget //For caching the DFS targets for a path
-	//mapWriterLock *sync.RWMutex
-	mapping utf16le.MapChars
+	mapWriterLock sync.RWMutex
+	mapping       utf16le.MapChars
 }
 
 func (fs *Share) WithContext(ctx context.Context) *Share {
@@ -1213,8 +1218,8 @@ func (fs *Share) GetDFSTargetList(c *Session, sharename, dirname string, isLink 
 	}
 
 	// this is for handling multiple calls
-	//fs.mapWriterLock.Lock()
-	//defer fs.mapWriterLock.Unlock()
+	fs.mapWriterLock.Lock()
+	defer fs.mapWriterLock.Unlock()
 
 	//check if its present in the map
 	//TODO: Add the TTL for this target and check here. Otherwise invalidate this cache entry
